@@ -5,4 +5,4 @@ class User(BaseModel):
     id: int
     name: str
     email: str
-    sign_up: bool 
+    sign_up: bool

@@ -1,13 +1,30 @@
-from pydantic import BaseModel
 from datetime import datetime
 
+from pydantic import BaseModel, Field
 
-class Task(BaseModel):
+
+class TaskBase(BaseModel):
+    title: str = Field(..., max_length=100, example="Fix login page")
+    description: str = Field(..., example="Button boesn't work")
+
+
+class TaskCreate(TaskBase):
+    pass
+
+
+class TaskUpdate(BaseModel):
+    title: str | None = None
+    description: str | None = None
+    completed: bool | None = None
+
+
+class TaskInDB(TaskBase):
     id: int
-    name: str
-    text: str
-    create_date:  datetime | datetime.date.now
-    is_complete: bool = False
-    complete_date: datetime | None = None
-    creator: str
-    
+    creater_id: int
+    assignee_id: int | None = None
+    created_at: datetime | datetime
+    completed: bool = False
+    completed_at: datetime | None = None
+
+    class Config:
+        orm_mode = True
