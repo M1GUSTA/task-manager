@@ -1,8 +1,8 @@
-"""initial
+"""description_of_changes
 
-Revision ID: a5d793591bd9
-Revises: 
-Create Date: 2025-07-22 17:09:31.134314
+Revision ID: 42a63cd79a7b
+Revises: cf28ea4ce459
+Create Date: 2025-09-09 23:46:38.840903
 
 """
 
@@ -13,8 +13,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = "a5d793591bd9"
-down_revision: Union[str, Sequence[str], None] = None
+revision: str = "42a63cd79a7b"
+down_revision: Union[str, Sequence[str], None] = "cf28ea4ce459"
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
@@ -25,24 +25,25 @@ def upgrade() -> None:
     op.create_table(
         "users",
         sa.Column("id", sa.BigInteger(), nullable=False),
-        sa.Column("name", sa.String(), nullable=False),
+        sa.Column("username", sa.String(), nullable=False),
         sa.Column("email", sa.String(), nullable=False),
         sa.Column("sign_up", sa.Boolean(), nullable=False),
+        sa.Column("password", sa.String(length=255), nullable=False),
         sa.PrimaryKeyConstraint("id"),
     )
     op.create_index(op.f("ix_users_id"), "users", ["id"], unique=False)
     op.create_table(
         "tasks",
         sa.Column("id", sa.BigInteger(), nullable=False),
-        sa.Column("title", sa.String(), nullable=False),
-        sa.Column("description", sa.String(), nullable=False),
+        sa.Column("title", sa.String(length=40), nullable=False),
+        sa.Column("description", sa.String(length=1000), nullable=True),
         sa.Column("created_at", sa.DateTime(), server_default=sa.text("now()"), nullable=False),
         sa.Column("completed", sa.Boolean(), nullable=False),
         sa.Column("completed_at", sa.DateTime(), nullable=True),
         sa.Column("creator_id", sa.BigInteger(), nullable=False),
-        sa.Column("assignee_id", sa.BigInteger(), nullable=False),
+        sa.Column("assigned_id", sa.BigInteger(), nullable=False),
         sa.ForeignKeyConstraint(
-            ["assignee_id"],
+            ["assigned_id"],
             ["users.id"],
         ),
         sa.ForeignKeyConstraint(
