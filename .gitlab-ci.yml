@@ -4,6 +4,8 @@ stages:
 
 variables:
   DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: ""
+  CI_REGISTRY: "http://192.168.1.152:5050"
 
 build_image:
   stage: build
