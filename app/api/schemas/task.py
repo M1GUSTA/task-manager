@@ -20,11 +20,11 @@ class TaskUpdate(BaseModel):
 
 class TaskInDB(TaskBase):
     id: int
-    creater_id: int
-    assignee_id: int | None = None
+    creator_id: int
+    assigned_id: int | None = None
     created_at: datetime | datetime
     completed: bool = False
     completed_at: datetime | None = None
 
     class Config:
-        orm_mode = True
+        from_attributes = True
