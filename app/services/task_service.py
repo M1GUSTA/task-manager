@@ -14,13 +14,17 @@ class TaskService:
 
     async def find_one(self, id: int, user: dict) -> TaskInDB:
         async with self.uow:
-            task: TaskInDB = await self.uow.tasks.find_one(id)
+            task_data = await self.uow.tasks.find_one(id)
 
-            if task:
-                if task.creator_id == user.id:
-                    return TaskInDB.model_validate(task)
+            if not task_data:
+                raise TaskNotFoundError("Task not found")
 
+            task = TaskInDB.model_validate(task_data)  # <-- фикс
+
+            if task.creator_id == user.id:
                 raise AccessDeniedError()
+
+            return TaskInDB.model_validate(task)
 
             raise TaskNotFoundError()
 
