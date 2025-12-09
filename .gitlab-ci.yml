@@ -13,8 +13,8 @@ build_image:
   image: docker:latest
 
   services:
-    - docker: dind
-      command: ["--insecure-registry=192.1.152.:5001"]
+    - name: docker:dind
+      command: ["--insecure-registry=192.1.152:5001"]
   variables:
     DOCKER_HOST: tcp://docker:2375/
     DOCKER_TLS_CERTDIR: ""
