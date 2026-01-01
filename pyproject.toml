@@ -31,6 +31,11 @@ ignore = ["E203", "E266", "E501"]
 [tool.ruff.format]
 quote-style = "double"
 
+[tool.ruff.lint.per-file-ignores]
+"app/api/endpoints/*.py" = ["B008"]
+"app/api/routers/*.py" = ["B008"]
+"app/core/security.py" = ["B008"]
+
 [tool.black]
 line-length = 120
 target-version = ["py310"]

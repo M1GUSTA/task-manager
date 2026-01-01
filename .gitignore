@@ -1,3 +1,11 @@
 .venv/
+venv/
+*.pyc
 __pycache__/
 .env
+*.log
+K8s-multi-zone-deployment.yaml
+hello.yaml
+test-namespace.yaml
+test-service.yaml
+test.py
