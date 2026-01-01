@@ -47,7 +47,8 @@ deploy:
     - ssh-keyscan -H 192.168.1.98 >> ~/.ssh/known_hosts
 
   script:
-    - ssh deploy@192.168.1.98 "
+    - |
+      ssh deploy@192.168.1.98 "
         docker pull $CI_REGISTRY_IMAGE:latest &&
         docker stop app || true &&
         docker rm app || true &&
