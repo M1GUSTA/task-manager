@@ -47,11 +47,19 @@ deploy:
     - ssh-keyscan -H 192.168.1.98 >> ~/.ssh/known_hosts
 
   script:
-    - ssh deploy@192.168.1.98 "
+    - |
+      ssh deploy@192.168.1.98 "
         docker pull $CI_REGISTRY_IMAGE:latest &&
         docker stop app || true &&
         docker rm app || true &&
-        docker run -d --name app -p 5000:5000 $CI_REGISTRY_IMAGE:latest
+        docker run -d --name app -p 5000:8000 \
+          -e DB_HOST=$DB_HOST \
+          -e DB_PORT=$DB_PORT \
+          -e DB_USER=$DB_USER \
+          -e DB_PASS=$DB_PASS \
+          -e DB_NAME=$DB_NAME \
+          -e SECRET_KEY=$SECRET_KEY \
+          $CI_REGISTRY_IMAGE:latest
       "
 
   only:
